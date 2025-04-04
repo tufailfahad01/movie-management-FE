@@ -42,6 +42,7 @@ const Page = () => {
       }
     } catch (err) {
       setError("Something went wrong. Please try again later.");
+      console.log(err)
     }
 
     setEmail("");

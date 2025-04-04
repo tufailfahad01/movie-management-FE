@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 const api = axios.create({
-  baseURL: "",
+  baseURL: "https://67ef7a832a80b06b889438f5.mockapi.io/",
 });
 
 api.interceptors.request.use(

@@ -1,11 +1,7 @@
 import Button from "@/components/common/Button/Button";
 import InputField from "@/components/common/InputField/InputField";
+import Image from "next/image";
 import React, { ChangeEvent, FormEvent, useState } from "react";
-
-interface FormData {
-  title: string;
-  publishYear: number;
-}
 
 const CreateMovie = ({
   pageTitle = "Create a new movie",
@@ -39,20 +35,24 @@ const CreateMovie = ({
         {/* Upload Image */}
         <div className="max-w-[300px] md:max-w-[473px] h-[380px] lg:h-[504px] w-full py-32 mb-4 bg-[#224957] border-dashed border-2 border-white rounded-lg cursor-pointer flex flex-col items-center justify-center">
           <input id="upload" type="file" className="opacity-0" />
-          <img src="/images/upload.svg" width={"24px"} height={"24px"} />
+          <Image
+            src={"/images/upload.svg"}
+            width={24}
+            height={24}
+            alt="upload-image"
+          />
           <p className="text-[12px] mt-2">{dropTitle}</p>
         </div>
 
         {/* Form Data */}
         <form
-          className="flex flex-col gap-5 w-full items-center max-w-[300px]"
+          className="flex flex-col gap-5 w-full max-w-[300px]"
           onSubmit={(e) => handleSubmit(e)}
         >
           <InputField
             inputId="title"
             inputPlaceholder="Title"
             inputType="text"
-            textCenter={false}
             handleChange={handleTitleChange}
             value={title}
           />
@@ -61,7 +61,6 @@ const CreateMovie = ({
             inputId="publish-year"
             inputPlaceholder="Publishing year"
             inputType="number"
-            textCenter={false}
             maxWidth="216px"
             handleChange={handlePublishYearChange}
             value={publishYear}
