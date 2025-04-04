@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import MovieCard from "./MovieCard";
 import { useRouter } from "next/router";
+import Image from "next/image";
+import CustomPagination from "@/components/core/CustomPagination/CustomPagination";
+import EmptyState from "./EmptyState";
 
 const movies = [
   { imgUrl: "/images/movie.svg", id: 1, title: "Inception", releaseYear: 2010 },
@@ -96,7 +99,22 @@ const movies = [
 ];
 
 const MyMovies = () => {
+  const [rowsPerPage, setRowsPerPage] = useState(8);
+  const [page, setPage] = useState(0);
+
   const router = useRouter();
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   return (
     <div className="w-[90%] mx-auto py-5 md:pt-10 md:pb-36">
       {/* Header */}
@@ -107,48 +125,49 @@ const MyMovies = () => {
             className="cursor-pointer"
             onClick={() => router.push("/create-movie")}
           >
-            <img
-              src="/images/Group 24.svg"
-              width={"26.27px"}
-              height={"26.27px"}
+            <Image
+              alt="add-movie"
+              src={"/images/Group 24.svg"}
+              width={26}
+              height={26}
             />
           </button>
         </h1>
         <button className="flex items-center gap-2">
           Logout
-          <img src="/images/Group.svg" width={"18px"} height={"18px"} />
+          <Image
+            src={"/images/Group.svg"}
+            alt="logout"
+            width={18}
+            height={18}
+          />
         </button>
       </div>
       {/* Movies List */}
       <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-8 md:mb-16">
-        {movies.map((movie) => (
-          <MovieCard
-            key={movie.id}
-            title={movie.title}
-            releaseYear={movie.releaseYear}
-            imgUrl={movie.imgUrl}
-          />
-        ))}
+        {movies.length > 0 ? (
+          movies
+            ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map((movie) => (
+              <MovieCard
+                key={movie.id}
+                title={movie.title}
+                releaseYear={movie.releaseYear}
+                imgUrl={movie.imgUrl}
+              />
+            ))
+        ) : (
+          <EmptyState />
+        )}
       </div>
       {/* Pagination */}
-      <div className="text-center">
-        <a href="/" className="py-2 px-3 mx-1 font-semibold rounded-sm">
-          Prev
-        </a>
-        <a
-          href="/"
-          className="py-2 px-3 mx-1 font-semibold rounded-sm bg-[#2BD17E]"
-        >
-          1
-        </a>{" "}
-        {/* active */}
-        <a href="/" className="py-2 px-3 mx-1 font-semibold rounded-sm">
-          2
-        </a>
-        <a href="/" className="py-2 px-3 mx-1 font-semibold rounded-sm">
-          Next
-        </a>
-      </div>
+      <CustomPagination
+        count={movies.length}
+        page={page}
+        rowsPerPage={rowsPerPage}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </div>
   );
 };

@@ -4,7 +4,6 @@ interface CustomPaginationProps {
   count: number;
   page: number;
   rowsPerPage: number;
-  // onPageChange: (_event: any, newPage: number) => void;
   onPageChange: (
     event: React.MouseEvent<HTMLElement, MouseEvent>,
     newPage: number
