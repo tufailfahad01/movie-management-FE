@@ -7,6 +7,7 @@ import EmptyState from "./EmptyState";
 import { Movie } from "@/types/type";
 import { fetchAllMovies } from "@/pages/api/moviesApi";
 import LoadingState from "./LoadingState";
+import { toast } from "react-toastify";
 
 const MyMovies = () => {
   const [rowsPerPage, setRowsPerPage] = useState(8);
@@ -54,7 +55,7 @@ const MyMovies = () => {
         <div className="w-[90%] mx-auto py-5 md:pt-10 md:pb-36">
           {/* Header */}
           <div className="md:w-[96%] flex justify-between mb-10 md:mb-16">
-            <h1 className="text-2xl md:text-4xl font-medium flex items-center gap-2">
+            <h1 className="text-2xl md:text-4xl font-semibold flex items-center gap-2">
               My movies{" "}
               <button
                 className="cursor-pointer"
@@ -71,6 +72,7 @@ const MyMovies = () => {
             <button
               className="flex items-center gap-2 cursor-pointer"
               onClick={() => {
+                toast.success("Logged out successfully");
                 localStorage.setItem("access_token", "");
                 router.push("/auth/login");
               }}

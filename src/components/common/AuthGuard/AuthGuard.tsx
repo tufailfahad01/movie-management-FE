@@ -8,10 +8,14 @@ const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   useEffect(() => {
     const access_token = localStorage.getItem("access_token");
-    if (router.pathname === "/auth/login") {
+    if (
+      router.pathname === "/auth/login" ||
+      router.pathname === "/auth/register"
+    ) {
       setLoading(false);
       return;
     }
+
     if (!access_token) {
       router.push("/auth/login");
     } else {

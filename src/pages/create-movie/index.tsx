@@ -4,7 +4,6 @@ import api from "@/services/api";
 import {
   createNewMovie,
   uploadImage,
-  deleteMovie,
 } from "@/pages/api/moviesApi";
 import { Movie } from "@/types/type";
 import Image from "next/image";
@@ -52,7 +51,7 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
     const formData = new FormData();
     formData.append("image", poster);
 
-    const posterUrl = movieData.poster || (await uploadImage(formData));
+    const posterUrl = movieData?.poster || (await uploadImage(formData));
 
     if (!posterUrl) {
       toast.error("Failed to upload image. Please try again.");
@@ -79,8 +78,12 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
         "/movie/" + movieData.id,
         updatedMoviesArray
       );
+      toast.success("Movie updated successfully. ");
       return response.data;
-    } catch (error) {
+    } catch (err: unknown) {
+      if (err && typeof err === "object" && "message" in err) {
+        toast.error((err as { message: string }).message);
+      }
     }
   };
 
@@ -104,59 +107,48 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
       ) : (
         <div className="space-y-20 py-20 max-w-[90%] lg:max-w-[80%] mx-auto h-screen">
           <div className="relative">
-            <h1 className="text-3xl md:text-4xl font-medium">{pageTitle}</h1>
-            {pageTitle === "Edit" && (
-              <button
-                onClick={(e) => {
-                  deleteMovie(movieData.id);
-                  router.push("/");
-                }}
-                className="absolute left-18 md:left-22 top-1 w-8 h-8 cursor-pointer"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="white"
-                  className="w-5 h-5"
-                >
-                  <path d="M7 4V2H17V4H22V6H20V21C20 21.5523 19.5523 22 19 22H5C4.44772 22 4 21.5523 4 21V6H2V4H7ZM6 6V20H18V6H6ZM9 9H11V17H9V9ZM13 9H15V17H13V9Z"></path>
-                </svg>
-              </button>
-            )}
+            <h1 className="text-3xl md:text-4xl font-semibold">{pageTitle}</h1>
           </div>
           <form
             onSubmit={handleSubmit}
             className="flex sm:gap-6 md:gap-12 lg:gap-20 xl:gap-32 flex-col sm:flex-row"
           >
-            {imagePreview ? (
-              <Image
-                src={imagePreview || "/images/movie.svg"}
-                alt="poster"
-                width={220}
-                height={220}
-                objectFit="cover"
-                className="rounded-lg mb-6 w-auto h-auto max-w-[320px] min-h-[420px]"
-              />
-            ) : (
-              <label
-                htmlFor="upload"
-                className="max-w-[300px] md:max-w-[473px] h-[380px] lg:h-[504px] w-full py-32 mb-4 bg-[#224957] border-dashed border-2 border-white rounded-lg cursor-pointer flex flex-col items-center justify-center relative"
-              >
-                <input
-                  id="upload"
-                  type="file"
-                  className="opacity-0 absolute w-full h-full cursor-pointer"
-                  onChange={handleFileChange}
-                />
+            <label
+              htmlFor="upload"
+              className={`max-w-[300px] md:max-w-[473px] h-[380px] lg:h-[504px] w-full py-32 mb-4 bg-${
+                imagePreview ? "transparent" : "[#224957]"
+              } border-dashed border-${
+                imagePreview ? 0 : 2
+              } border-white rounded-lg cursor-pointer flex flex-col items-center justify-center relative`}
+            >
+              {imagePreview ? (
                 <Image
-                  src={"/images/upload.svg"}
-                  width={24}
-                  height={24}
-                  alt="upload-image"
+                  src={imagePreview}
+                  alt="poster"
+                  width={220}
+                  height={220}
+                  objectFit="cover"
+                  className="rounded-lg mb-6 w-auto h-auto max-w-[320px] min-h-[420px]"
                 />
-                <p className="text-[12px] mt-2">{dropTitle}</p>
-              </label>
-            )}
+              ) : (
+                <>
+                  <Image
+                    src="/images/upload.svg"
+                    width={24}
+                    height={24}
+                    alt="upload-image"
+                  />
+                  <p className="text-[12px] mt-2">{dropTitle}</p>
+                </>
+              )}
+
+              <input
+                id="upload"
+                type="file"
+                className="opacity-0 absolute w-full h-full cursor-pointer"
+                onChange={handleFileChange}
+              />
+            </label>
 
             <div className="flex flex-col gap-8 w-full max-w-[300px]">
               <InputField

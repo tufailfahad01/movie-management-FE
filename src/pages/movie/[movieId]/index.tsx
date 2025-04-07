@@ -33,7 +33,7 @@ const EditMovie = () => {
       ) : (
         <CreateMovie
           pageTitle="Edit"
-          mainButton="Upload"
+          mainButton="Update"
           dropTitle="Drop other image here"
           movieData={movieData}
         />

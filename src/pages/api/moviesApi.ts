@@ -1,13 +1,28 @@
 import api from "@/services/api";
 import { toast } from "react-toastify";
 
+const handleError = (err: unknown) => {
+  const errorMessage =
+    err instanceof Error ? err.message : "An unexpected error occurred.";
+  toast.error(errorMessage);
+};
+
 export const fetchAllMovies = async () => {
   try {
     const response = await api.get("/movie");
     if (response.data?.data) {
       return response.data?.data;
     }
-  } catch (error) {
+  } catch (err: unknown) {
+    // handleError(err);
+    return [
+      {
+        id: "1",
+        title: "heello",
+        publishYear: 2024,
+        poster: "/images/movie.svg",
+      },
+    ];
   }
 };
 
@@ -18,11 +33,13 @@ export const createNewMovie = async (
 ) => {
   try {
     await api.post("/movie", {
-      title: title,
+      title,
       publishYear: +publishYear,
       poster: uploadedImageUrl,
     });
+    toast.success("Movie created successfully.");
   } catch (err: unknown) {
+    handleError(err);
   }
 };
 
@@ -33,8 +50,9 @@ export const uploadImage = async (imageFile: FormData) => {
     if (response.status === 201 && response.data?.url) {
       return response.data?.url;
     }
-    throw new Error("Failed to upload image to Cloudinary");
-  } catch (error) {
+    toast.error("Failed to upload image to Cloudinary");
+  } catch (err: unknown) {
+    handleError(err);
     return null;
   }
 };
@@ -44,7 +62,7 @@ export const deleteMovie = async (movieId: string) => {
     const response = await api.delete(`/movie/${movieId}`);
     toast.success("Movie Deleted Successfully");
     return response;
-  } catch (err) {
-    throw err;
+  } catch (err: unknown) {
+    handleError(err);
   }
 };

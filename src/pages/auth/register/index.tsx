@@ -50,6 +50,7 @@ const Register = () => {
         toast.error("Registration failed. Please try again.");
       }
     } catch (err: unknown) {
+      setLoading(false);
       if (err && typeof err === "object" && "message" in err) {
         toast.error((err as { message: string }).message);
       } else {

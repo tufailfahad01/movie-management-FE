@@ -44,6 +44,7 @@ const Login = () => {
         toast.error("Invalid credentials. Please try again.");
       }
     } catch (err: unknown) {
+      setLoading(false);
       if (err && typeof err === "object" && "message" in err) {
         toast.error((err as { message: string }).message);
       } else {
@@ -86,7 +87,8 @@ const Login = () => {
             type="checkbox"
             id="remember-me"
             name="rememberMe"
-            className="w-5 h-5 rounded-xl"
+            className="w-5 h-5 rounded-xl !bg-[#224957] !border-0"
+            style={{ border: "none !important",  }}
             onChange={handleCheckedChange}
             checked={checked}
           />
