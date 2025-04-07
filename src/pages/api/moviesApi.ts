@@ -1,4 +1,5 @@
 import api from "@/services/api";
+import { toast } from "react-toastify";
 
 export const fetchAllMovies = async () => {
   try {
@@ -43,6 +44,8 @@ export const uploadImage = async (imageFile: FormData) => {
 export const deleteMovie = async (movieId: string) => {
   try {
     const response = await api.delete(`/movie/${movieId}`);
+    toast.success("Movie Deleted Successfully");
+    console.log(response.data?.message)
     return response;
   } catch (err) {
     console.error("Error deleting movie", err);

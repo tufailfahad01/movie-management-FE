@@ -2,7 +2,11 @@ import AuthGuard from "@/components/common/AuthGuard/AuthGuard";
 import Button from "@/components/common/Button/Button";
 import InputField from "@/components/common/InputField/InputField";
 import api from "@/services/api";
-import { createNewMovie, uploadImage } from "@/pages/api/moviesApi";
+import {
+  createNewMovie,
+  uploadImage,
+  deleteMovie,
+} from "@/pages/api/moviesApi";
 import { Movie } from "@/types/type";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -60,7 +64,7 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
       createNewMovie(title, publishYear, posterUrl);
     }
 
-    // router.push("/");
+    router.push("/");
   };
 
   const editMovie = async (uploadedImageUrl: string) => {
@@ -104,8 +108,8 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
             {pageTitle === "Edit" && (
               <button
                 onClick={(e) => {
-                  // handleDelete(movieData?.id);
-                  console.log("deleted");
+                  deleteMovie(movieData.id);
+                  router.push("/");
                 }}
                 className="absolute left-22 top-1 w-8 h-8 cursor-pointer"
               >
