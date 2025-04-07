@@ -27,7 +27,9 @@ const Button: React.FC<ButtonProps> = ({
     <button
       onClick={handleClick}
       type={type}
-      className={` text-[16px] font-bold cursor-pointer text-white rounded-[10px] ${sizes[size]} ${
+      className={` text-[16px] font-bold cursor-pointer text-white rounded-[10px] ${
+        sizes[size]
+      } ${
         variant === "contained"
           ? "bg-[#2BD17E] w-full"
           : "bg-transparent border-white border-2 text-white py-4 w-full"

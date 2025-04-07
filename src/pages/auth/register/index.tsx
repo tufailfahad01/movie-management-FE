@@ -11,6 +11,8 @@ const Register = () => {
   const [password, setPassword] = useState<string>("");
   const [role, setRole] = useState<string>("USER");
   const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState(false);
+
   const router = useRouter();
 
   const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -31,6 +33,7 @@ const Register = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const response = await api.post("/auth/register", {
@@ -109,7 +112,7 @@ const Register = () => {
         </div>
 
         {error && <p className="text-red-500 text-sm">{error}</p>}
-        <Button label="Register" type="submit" size="lg" />
+        <Button label="Register" type="submit" size="lg" loading={loading} />
       </form>
       <p className="text-sm">
         Aleady have an account?{" "}

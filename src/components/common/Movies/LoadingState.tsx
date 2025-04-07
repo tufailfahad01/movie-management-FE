@@ -14,7 +14,7 @@ const LoadingState: React.FC = () => {
         {[...Array(8)].map((_, index) => (
           <div
             key={index}
-            className="bg-[#092C39] max-w-[282px] max-h-[504px] p-2 rounded-xl mx-auto sm:mx-0 relative animate-pulse"
+            className="bg-[#092C39] w-[232px] lg:w-[262px] h-[504px] p-2 rounded-xl mx-auto sm:mx-0 relative animate-pulse"
           >
             {/* Image area with centered dots */}
             <div className="bg-[#1f4d5e] h-[400px] rounded-md relative">
