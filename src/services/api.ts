@@ -1,14 +1,15 @@
 import axios, { AxiosResponse } from "axios";
 const api = axios.create({
-  baseURL: "https://67ef7a832a80b06b889438f5.mockapi.io/",
+  baseURL: "http://3.147.92.204:3001/",
 });
 
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    const access_token = localStorage.getItem("access_token");
+    if (access_token) {
+      config.headers.Authorization = `Bearer ${access_token}`;
     }
+    config.headers["ngrok-skip-browser-warning"] = "true";
     return config;
   },
   (error) => Promise.reject(error)
