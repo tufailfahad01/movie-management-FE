@@ -16,13 +16,8 @@ const InputField: React.FC<InputFieldProps> = ({
   handleChange,
   value,
 }) => {
-  // console.log(`w-full max-w-["${maxWidth}"]`);
-  
   return (
-    <div
-      style={{ maxWidth: maxWidth }}
-      className={`w-full`}
-    >
+    <div style={{ maxWidth: maxWidth }} className={`w-full`}>
       <label htmlFor={inputId} className="sr-only">
         {inputPlaceholder}
       </label>

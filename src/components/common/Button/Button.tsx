@@ -5,6 +5,7 @@ interface ButtonProps {
   variant?: "contained" | "outlined";
   type?: "submit" | "reset" | "button";
   size: "sm" | "md" | "lg";
+  handleClick?: () => void;
 }
 
 const sizes = {
@@ -18,9 +19,11 @@ const Button: React.FC<ButtonProps> = ({
   variant = "contained",
   type = "button",
   size,
+  handleClick,
 }) => {
   return (
     <button
+      onClick={handleClick}
       type={type}
       className={`cursor-pointer text-white rounded-[10px] ${sizes[size]} ${
         variant === "contained"

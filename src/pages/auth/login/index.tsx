@@ -1,10 +1,12 @@
 import Button from "@/components/common/Button/Button";
 import InputField from "@/components/common/InputField/InputField";
 import api from "@/services/api";
+import Error from "next/error";
 import { useRouter } from "next/navigation";
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
-const Page = () => {
+const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [checked, setChecked] = useState<boolean>(false);
@@ -28,21 +30,26 @@ const Page = () => {
     // console.log({ email, password, checked });
 
     try {
-      const response = await api.post("/api/login", {
+      const response = await api.post("/auth/login", {
         email,
         password,
       });
 
       if (response.data && response.data.data?.access_token) {
         localStorage.setItem("access_token", response.data.data.access_token);
-
-        router.push("/movies/list");
+        router.push("/");
+        toast.success("Login successful!");
       } else {
-        setError("Invalid credentials. Please try again.");
+        // console.log("did it worked?")
+        // setError("Invalid credentials. Please try again.");
+        // toast.error("Invalid credentials. Please try again.");
       }
-    } catch (err) {
-      setError("Something went wrong. Please try again later.");
-      console.log(err)
+    } catch (err: unknown) {
+      if (err && typeof err === "object" && "message" in err) {
+        toast.error((err as { message: string }).message);
+      } else {
+        toast.error("An unknown error occurred");
+      }
     }
 
     setEmail("");
@@ -88,11 +95,19 @@ const Page = () => {
             Remember me
           </label>
         </div>
-        {error && <p className="text-red-500 text-sm">{error}</p>}
         <Button label="Login" type="submit" size="lg" />
       </form>
+      <p className="text-sm">
+        Don&apos;t have an account?{" "}
+        <span
+          className="text-[#2BD17E] cursor-pointer underline hover:text-[#1cbb6b]"
+          onClick={() => router.push("/auth/register")}
+        >
+          Register
+        </span>
+      </p>
     </div>
   );
 };
 
-export default Page;
+export default Login;

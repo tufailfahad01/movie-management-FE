@@ -1,6 +1,7 @@
 import Head from "next/head";
 // import localFont from "next/font/local";
 import MyMovies from "@/components/common/Movies/MyMovies";
+import AuthGuard from "@/components/common/AuthGuard/AuthGuard";
 
 // const geistSans = localFont({
 //   src: "./fonts/GeistVF.woff",
@@ -22,7 +23,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <MyMovies />
+      <AuthGuard>
+        <MyMovies />
+      </AuthGuard>
     </>
   );
 }
