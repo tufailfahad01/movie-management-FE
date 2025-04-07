@@ -1,7 +1,6 @@
 import Head from "next/head";
 
 import MyMovies from "@/components/common/Movies/MyMovies";
-import AuthGuard from "@/components/common/AuthGuard/AuthGuard";
 
 export default function Home() {
   return (

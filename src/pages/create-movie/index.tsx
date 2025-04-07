@@ -26,6 +26,7 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
   movieData,
 }) => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState<string>("");
   const [publishYear, setPublishYear] = useState<string>("");
   const [accessToken, setAccessToken] = useState<string | null>(null);
@@ -42,6 +43,7 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
 
     if (!poster) {
       toast.error("Please upload an image.");
@@ -79,7 +81,6 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
       );
       return response.data;
     } catch (error) {
-      console.error("Error editing movie:", error);
     }
   };
 
@@ -110,7 +111,7 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
                   deleteMovie(movieData.id);
                   router.push("/");
                 }}
-                className="absolute left-22 top-1 w-8 h-8 cursor-pointer"
+                className="absolute left-18 md:left-22 top-1 w-8 h-8 cursor-pointer"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -128,18 +129,14 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
             className="flex sm:gap-6 md:gap-12 lg:gap-20 xl:gap-32 flex-col sm:flex-row"
           >
             {imagePreview ? (
-              <div
-                className="relative w-full"
-                style={{ height: "504px", aspectRatio: "473/504" }}
-              >
-                <Image
-                  src={imagePreview || "/images/movie.svg"}
-                  alt="poster"
-                  layout="fill"
-                  objectFit="cover"
-                  className="rounded-lg"
-                />
-              </div>
+              <Image
+                src={imagePreview || "/images/movie.svg"}
+                alt="poster"
+                width={220}
+                height={220}
+                objectFit="cover"
+                className="rounded-lg mb-6 w-auto h-auto max-w-[320px] min-h-[420px]"
+              />
             ) : (
               <label
                 htmlFor="upload"
@@ -189,7 +186,7 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
                   label={mainButton}
                   type="submit"
                   size="sm"
-                  // loading={true}
+                  loading={loading}
                 />
               </div>
             </div>

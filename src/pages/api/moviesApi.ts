@@ -8,7 +8,6 @@ export const fetchAllMovies = async () => {
       return response.data?.data;
     }
   } catch (error) {
-    console.error("Error fetching movies:", error);
   }
 };
 
@@ -24,7 +23,6 @@ export const createNewMovie = async (
       poster: uploadedImageUrl,
     });
   } catch (err: unknown) {
-    console.log(err);
   }
 };
 
@@ -45,10 +43,8 @@ export const deleteMovie = async (movieId: string) => {
   try {
     const response = await api.delete(`/movie/${movieId}`);
     toast.success("Movie Deleted Successfully");
-    console.log(response.data?.message)
     return response;
   } catch (err) {
-    console.error("Error deleting movie", err);
     throw err;
   }
 };

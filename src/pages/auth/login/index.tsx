@@ -11,6 +11,7 @@ const Login = () => {
   const [password, setPassword] = useState<string>("");
   const [checked, setChecked] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +28,7 @@ const Login = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // console.log({ email, password, checked });
+    setLoading(true);
 
     try {
       const response = await api.post("/auth/login", {
@@ -40,9 +41,7 @@ const Login = () => {
         router.push("/");
         toast.success("Login successful!");
       } else {
-        // console.log("did it worked?")
-        // setError("Invalid credentials. Please try again.");
-        // toast.error("Invalid credentials. Please try again.");
+        toast.error("Invalid credentials. Please try again.");
       }
     } catch (err: unknown) {
       if (err && typeof err === "object" && "message" in err) {
@@ -95,7 +94,7 @@ const Login = () => {
             Remember me
           </label>
         </div>
-        <Button label="Login" type="submit" size="lg" />
+        <Button label="Login" type="submit" size="lg" loading={loading} />
       </form>
       <p className="text-sm">
         Don&apos;t have an account?{" "}
