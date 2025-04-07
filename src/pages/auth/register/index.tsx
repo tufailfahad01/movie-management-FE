@@ -62,7 +62,7 @@ const Register = () => {
 
   return (
     <div className="flex flex-col justify-center items-center w-full h-screen gap-8">
-      <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold">
+      <h1 className="text-4xl sm:text-5xl md:text-[64px] font-semibold">
         Sign up
       </h1>
       <form
@@ -101,7 +101,7 @@ const Register = () => {
             id="role"
             value={role}
             onChange={handleRoleChange}
-            className="bg-[#224957] rounded-md text-white focus:outline-none pl-3 py-2 w-full text-sm"
+            className="bg-[#224957] rounded-xl text-white focus:outline-none px-4 py-4 w-full text-sm"
           >
             <option value="USER">User</option>
             <option value="ADMIN">Admin</option>

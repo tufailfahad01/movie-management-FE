@@ -1,4 +1,3 @@
-import AuthGuard from "@/components/common/AuthGuard/AuthGuard";
 import Button from "@/components/common/Button/Button";
 import InputField from "@/components/common/InputField/InputField";
 import api from "@/services/api";
@@ -30,12 +29,11 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
   const [title, setTitle] = useState<string>("");
   const [publishYear, setPublishYear] = useState<string>("");
   const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [poster, setPoster] = useState<File | null>(null);
+  const [poster, setPoster] = useState<File | null | string>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    console.log(file);
     if (file) {
       setPoster(file);
       setImagePreview(URL.createObjectURL(file));
@@ -52,7 +50,7 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
     const formData = new FormData();
     formData.append("image", poster);
 
-    const posterUrl = await uploadImage(formData);
+    const posterUrl = movieData.poster || (await uploadImage(formData));
 
     if (!posterUrl) {
       toast.error("Failed to upload image. Please try again.");
@@ -74,7 +72,6 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
       poster: uploadedImageUrl,
     };
 
-
     try {
       const response = await api.patch(
         "/movie/" + movieData.id,
@@ -94,11 +91,13 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
     if (pageTitle === "Edit") {
       setTitle(movieData?.title);
       setPublishYear(movieData?.publishYear + "");
+      setPoster(movieData.poster);
+      setImagePreview(movieData.poster);
     }
   }, [movieData]);
 
   return (
-    <AuthGuard>
+    <>
       {!accessToken ? (
         <></>
       ) : (
@@ -128,24 +127,39 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
             onSubmit={handleSubmit}
             className="flex sm:gap-6 md:gap-12 lg:gap-20 xl:gap-32 flex-col sm:flex-row"
           >
-            <label
-              htmlFor="upload"
-              className="max-w-[300px] md:max-w-[473px] h-[380px] lg:h-[504px] w-full py-32 mb-4 bg-[#224957] border-dashed border-2 border-white rounded-lg cursor-pointer flex flex-col items-center justify-center relative"
-            >
-              <input
-                id="upload"
-                type="file"
-                className="opacity-0 absolute w-full h-full cursor-pointer"
-                onChange={handleFileChange}
-              />
-              <Image
-                src={"/images/upload.svg"}
-                width={24}
-                height={24}
-                alt="upload-image"
-              />
-              <p className="text-[12px] mt-2">{dropTitle}</p>
-            </label>
+            {imagePreview ? (
+              <div
+                className="relative w-full"
+                style={{ height: "504px", aspectRatio: "473/504" }}
+              >
+                <Image
+                  src={imagePreview || "/images/movie.svg"}
+                  alt="poster"
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-lg"
+                />
+              </div>
+            ) : (
+              <label
+                htmlFor="upload"
+                className="max-w-[300px] md:max-w-[473px] h-[380px] lg:h-[504px] w-full py-32 mb-4 bg-[#224957] border-dashed border-2 border-white rounded-lg cursor-pointer flex flex-col items-center justify-center relative"
+              >
+                <input
+                  id="upload"
+                  type="file"
+                  className="opacity-0 absolute w-full h-full cursor-pointer"
+                  onChange={handleFileChange}
+                />
+                <Image
+                  src={"/images/upload.svg"}
+                  width={24}
+                  height={24}
+                  alt="upload-image"
+                />
+                <p className="text-[12px] mt-2">{dropTitle}</p>
+              </label>
+            )}
 
             <div className="flex flex-col gap-8 w-full max-w-[300px]">
               <InputField
@@ -164,22 +178,25 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
                 handleChange={(e) => setPublishYear(e.target.value)}
                 value={publishYear}
               />
-              <div className="flex w-full justify-between gap-2 mt-6">
+              <div className="flex w-full justify-between gap-4 mt-6">
                 <Button
                   label="Cancel"
                   variant="outlined"
                   size="sm"
                   handleClick={() => router.push("/")}
                 />
-                  <Button label={mainButton} type="submit" size="sm"
-                    // loading={true}
-                  />
+                <Button
+                  label={mainButton}
+                  type="submit"
+                  size="sm"
+                  // loading={true}
+                />
               </div>
             </div>
           </form>
         </div>
       )}
-    </AuthGuard>
+    </>
   );
 };
 

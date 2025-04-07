@@ -20,7 +20,16 @@ const MovieCard: React.FC<MovieCardProps> = ({
       href={"/movie/" + id}
       className="bg-[#092C39] max-w-[282px] max-h-[504px] !p-2 rounded-xl mx-auto sm:mx-0 relative"
     >
-      <Image src={poster} alt={title} width={266} height={400} />
+      <div className="relative w-full h-96 overflow-hidden">
+        <Image
+          src={poster}
+          alt={title}
+          width={266}
+          height={400}
+          className="rounded-xl min-h-full"
+          // objectFit="cover"
+        />
+      </div>
       <div className="!p-2">
         <h3>{title}</h3>
         <p className="text-sm">{publishYear}</p>

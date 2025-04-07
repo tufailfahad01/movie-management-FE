@@ -10,9 +10,9 @@ interface ButtonProps {
 }
 
 const sizes = {
-  sm: "py-4 max-w-[139px]",
+  sm: "h-[56px] w-[179px] flex justify-center items-center",
   md: "py-4 max-w-[202px]",
-  lg: "py-2 max-w-[300px]",
+  lg: "py-4 max-w-[300px]",
 };
 
 const Button: React.FC<ButtonProps> = ({
@@ -27,7 +27,7 @@ const Button: React.FC<ButtonProps> = ({
     <button
       onClick={handleClick}
       type={type}
-      className={`cursor-pointer text-white rounded-[10px] ${sizes[size]} ${
+      className={` text-[16px] font-bold cursor-pointer text-white rounded-[10px] ${sizes[size]} ${
         variant === "contained"
           ? "bg-[#2BD17E] w-full"
           : "bg-transparent border-white border-2 text-white py-4 w-full"

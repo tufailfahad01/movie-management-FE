@@ -25,7 +25,6 @@ const Page = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // console.log({ email, password, checked });
 
     try {
       const response = await api.post("/api/login", {
@@ -42,7 +41,6 @@ const Page = () => {
       }
     } catch (err) {
       setError("Something went wrong. Please try again later.");
-      console.log(err)
     }
 
     setEmail("");
@@ -52,7 +50,7 @@ const Page = () => {
 
   return (
     <div className="flex flex-col justify-center items-center w-full h-screen gap-8">
-      <h1 className="text-4xl sm:text-5xl md:text-6xl font-semibold">
+      <h1 className="text-5xl md:text-[64px] font-semibold">
         Sign in
       </h1>
       <form
@@ -84,7 +82,7 @@ const Page = () => {
             onChange={handleCheckedChange}
             checked={checked}
           />
-          <label htmlFor="remember-me" className="text-[14px]">
+          <label htmlFor="remember-me" className="text-[14px] font-light">
             Remember me
           </label>
         </div>
