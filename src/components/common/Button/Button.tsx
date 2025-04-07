@@ -1,11 +1,12 @@
 import React from "react";
-
+import { ThreeDots } from "react-loader-spinner";
 interface ButtonProps {
   label: string;
   variant?: "contained" | "outlined";
   type?: "submit" | "reset" | "button";
   size: "sm" | "md" | "lg";
   handleClick?: () => void;
+  loading?: boolean;
 }
 
 const sizes = {
@@ -20,6 +21,7 @@ const Button: React.FC<ButtonProps> = ({
   type = "button",
   size,
   handleClick,
+  loading = false,
 }) => {
   return (
     <button
@@ -29,9 +31,21 @@ const Button: React.FC<ButtonProps> = ({
         variant === "contained"
           ? "bg-[#2BD17E] w-full"
           : "bg-transparent border-white border-2 text-white py-4 w-full"
-      }`}
+      } flex items-center justify-center`}
+      disabled={loading}
     >
-      {label}
+      {loading ? (
+        <ThreeDots
+          height="24"
+          width="40"
+          radius="9"
+          color="#ffffff"
+          ariaLabel="three-dots-loading"
+          visible={true}
+        />
+      ) : (
+        label
+      )}
     </button>
   );
 };

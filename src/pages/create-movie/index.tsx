@@ -73,7 +73,7 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
       publishYear: +publishYear,
       poster: uploadedImageUrl,
     };
-    console.log(updatedMoviesArray);
+
 
     try {
       const response = await api.patch(
@@ -171,7 +171,9 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
                   size="sm"
                   handleClick={() => router.push("/")}
                 />
-                <Button label={mainButton} type="submit" size="sm" />
+                  <Button label={mainButton} type="submit" size="sm"
+                    // loading={true}
+                  />
               </div>
             </div>
           </form>
