@@ -9,7 +9,6 @@ const Register = () => {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [role, setRole] = useState<string>("USER");
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
@@ -27,9 +26,6 @@ const Register = () => {
     setPassword(e.target.value);
   };
 
-  const handleRoleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setRole(e.target.value);
-  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,7 +36,6 @@ const Register = () => {
         name,
         email,
         password,
-        role,
       });
 
       if (response.data) {
@@ -61,7 +56,6 @@ const Register = () => {
     setName("");
     setEmail("");
     setPassword("");
-    setRole("USER");
   };
 
   return (
@@ -96,21 +90,6 @@ const Register = () => {
           handleChange={handlePasswordChange}
           value={password}
         />
-
-        <div style={{ maxWidth: "300px" }} className="w-full">
-          <label htmlFor="role" className="sr-only">
-            Role
-          </label>
-          <select
-            id="role"
-            value={role}
-            onChange={handleRoleChange}
-            className="bg-[#224957] rounded-xl text-white focus:outline-none px-4 py-4 w-full text-sm"
-          >
-            <option value="USER">User</option>
-            <option value="ADMIN">Admin</option>
-          </select>
-        </div>
 
         {error && <p className="text-red-500 text-sm">{error}</p>}
         <Button label="Register" type="submit" size="lg" loading={loading} />
