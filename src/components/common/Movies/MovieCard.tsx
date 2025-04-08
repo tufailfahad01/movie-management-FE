@@ -18,7 +18,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
 }) => {
   const router = useRouter();
   return (
-    <div className="bg-[#092C39] max-w-[282px] max-h-[504px] !p-2 rounded-xl mx-auto sm:mx-0 relative transform transition-all duration-300 ease-in-out hover:scale-102">
+    <div className="group bg-[#092C39] max-w-[282px] max-h-[504px] !p-2 rounded-xl mx-auto sm:mx-0 relative transform transition-all duration-300 ease-in-out hover:scale-102">
       <div className="relative w-full h-96 overflow-hidden">
         <Image
           src={poster}
@@ -32,9 +32,10 @@ const MovieCard: React.FC<MovieCardProps> = ({
         <h3>{title}</h3>
         <p className="text-sm">{publishYear}</p>
       </div>
-      <div className="absolute top-6 right-6 flex flex-col gap-4">
+      <div className="absolute top-6 right-6 flex flex-col gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
         <button
-          className="cursor-pointer"
+          title="Edit Movie"
+          className="cursor-pointer p-2 bg-green-500 rounded-full hover:bg-opacity-90 transition-all"
           onClick={() => router.push("/movie/" + id)}
         >
           <svg
@@ -47,7 +48,8 @@ const MovieCard: React.FC<MovieCardProps> = ({
           </svg>
         </button>
         <button
-          className="cursor-pointer"
+          title="Delete Movie"
+          className="cursor-pointer p-2 bg-red-500 rounded-full hover:bg-opacity-90 transition-all"
           onClick={() => {
             deleteMovie(id);
           }}

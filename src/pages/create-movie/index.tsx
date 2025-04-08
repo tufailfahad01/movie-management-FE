@@ -103,17 +103,17 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
       {!accessToken ? (
         <></>
       ) : (
-        <div className="space-y-20 py-20 max-w-[90%] lg:max-w-[80%] mx-auto h-screen">
+        <div className="space-y-10 md:space-y-20 py-5 sm:py-10 md:py-20 max-w-[90%] lg:max-w-[80%] mx-auto h-screen">
           <div className="relative">
             <h1 className="text-3xl md:text-4xl font-semibold">{pageTitle}</h1>
           </div>
           <form
             onSubmit={handleSubmit}
-            className="flex sm:gap-6 md:gap-12 lg:gap-20 xl:gap-32 flex-col sm:flex-row"
+            className="flex sm:gap-6 md:gap-12 lg:gap-20 xl:gap-32 flex-col sm:flex-row pb-6"
           >
             <label
               htmlFor="upload"
-              className={`max-w-[300px] md:max-w-[473px] h-[380px] lg:h-[504px] w-full py-32 mb-4 bg-${
+              className={`max-w-[300px] md:max-w-[473px] h-[380px] lg:h-[504px] w-full py-32 mb-8 bg-${
                 imagePreview ? "transparent" : "[#224957]"
               } border-dashed border-${
                 imagePreview ? 0 : 2
@@ -126,7 +126,7 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
                   width={220}
                   height={220}
                   objectFit="cover"
-                  className="rounded-lg mb-6 w-auto h-auto max-w-[320px] min-h-[420px]"
+                  className="rounded-lg my-10 w-auto h-auto max-w-[320px] min-h-[420px]"
                 />
               ) : (
                 <>
@@ -165,7 +165,7 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
                 handleChange={(e) => setPublishYear(e.target.value)}
                 value={publishYear}
               />
-              <div className="flex w-full justify-between gap-4 mt-6">
+              <div className="flex w-full justify-between gap-4 md:mt-6">
                 <Button
                   label="Cancel"
                   variant="outlined"

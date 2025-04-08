@@ -14,15 +14,7 @@ export const fetchAllMovies = async () => {
       return response.data?.data;
     }
   } catch (err: unknown) {
-    // handleError(err);
-    return [
-      {
-        id: "1",
-        title: "heello",
-        publishYear: 2024,
-        poster: "/images/movie.svg",
-      },
-    ];
+    toast.error("Something went wrong. ");
   }
 };
 
