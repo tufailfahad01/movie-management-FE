@@ -24,9 +24,14 @@ const MyMovies = () => {
 
   useEffect(() => {
     const loadMovies = async () => {
-      const response = await fetchAllMovies();
-      setMovies(response);
-      setLoading(false);
+      try {
+        const response = await fetchAllMovies();
+        setMovies(response);
+      } catch (error) {
+        toast.error("Failed to load movies");
+      } finally {
+        setLoading(false);
+      }
     };
 
     loadMovies();

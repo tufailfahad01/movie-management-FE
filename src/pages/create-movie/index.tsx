@@ -1,10 +1,7 @@
 import Button from "@/components/common/Button/Button";
 import InputField from "@/components/common/InputField/InputField";
 import api from "@/services/api";
-import {
-  createNewMovie,
-  uploadImage,
-} from "@/pages/api/moviesApi";
+import { createNewMovie, uploadImage } from "@/pages/api/moviesApi";
 import { Movie } from "@/types/type";
 import Image from "next/image";
 import { useRouter } from "next/router";
@@ -44,17 +41,18 @@ const CreateMovie: React.FC<CreateMovieProps> = ({
     e.preventDefault();
     setLoading(true);
 
-    if (!poster) {
-      toast.error("Please upload an image.");
-      return;
-    }
-    const formData = new FormData();
-    formData.append("image", poster);
+    let posterUrl = movieData?.poster;
+    if (poster && poster !== movieData?.poster) {
+      const formData = new FormData();
+      formData.append("image", poster);
 
-    const posterUrl = movieData?.poster || (await uploadImage(formData));
+      posterUrl = await uploadImage(formData);
 
-    if (!posterUrl) {
-      toast.error("Failed to upload image. Please try again.");
+      if (!posterUrl) {
+        toast.error("Failed to upload image. Please try again.");
+        setLoading(false);
+        return;
+      }
     }
 
     if (pageTitle === "Edit") {
